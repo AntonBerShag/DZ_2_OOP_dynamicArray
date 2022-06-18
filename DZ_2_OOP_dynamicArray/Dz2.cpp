@@ -238,11 +238,110 @@ public:
 		return true;
 	}
 
+	//Класс итератор
+	class iterator {
+		int* operator->()const {
+			return place_;
+		}
+
+		int& operator*()const {
+			return *place_;
+		};
+
+		operator int* ()const {
+			return place_;
+		}
+
+		iterator& operator+(int i)const {
+			iterator result(*this);
+			result.place_ += i;
+			return result;
+		}
+
+		iterator& operator+=(int i) {
+			place_ += i;
+			return *this;
+		}
+
+		iterator& operator-(int i)const {
+			iterator result(*this);
+			result.place_ -= i;
+			return result;
+		}
+
+		iterator& operator-=(int i) {
+			place_ -= i;
+			return *this;
+		}
+
+		iterator& operator--() {
+			place_ -= 1;
+			return *this;
+		}
+
+		iterator& operator--(int) {
+			iterator tmp{ *this };
+			place_ -= 1;
+			return tmp;
+		}
+
+		iterator& operator++() {
+			place_ += 1;
+			return *this;
+		}
+
+		iterator& operator++(int) {
+			iterator tmp{ *this };
+			place_ += 1;
+			return tmp;
+		}
+
+		operator bool()const {
+			return static_cast<bool>(place_);
+		}
+
+		bool operator==(const iterator&& other)const {
+			return place_ == other.place_;
+		}
+
+		bool operator!=(const iterator&& other)const {
+			return place_ != other.place_;
+		}
+
+		bool operator<(const iterator&& other)const {
+			return place_ < other.place_;
+		}
+
+		bool operator<=(const iterator&& other)const {
+			return place_ <= other.place_;
+		}
+
+		bool operator>(const iterator&& other)const {
+			return place_ > other.place_;
+		}
+
+		bool operator>=(const iterator&& other)const {
+			return place_ >= other.place_;
+		}
+
+		int& operator[](int i)const {
+			return place_[i];
+		}
+
+	private:
+		iterator(const dynamicArr&& position, int* place) :collection_(position), place_(place) {}
+		iterator() = delete;
+		const dynamicArr& collection_;
+		int* place_;
+	};
+
 private:
 	int* data_;
 	int size_;
 	int capacity_;
 };
+
+
 
 int main() {
 	setlocale(LC_ALL, "Russian");
